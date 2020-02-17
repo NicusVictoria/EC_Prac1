@@ -39,5 +39,9 @@ def two_point_crossover(parent1, parent2, g):
 
 
 def compete(family):
+    # print([x.fitness for x in family])
     family.sort(key=lambda x: (x.fitness, x.generation))
-    return family[:2]
+    # print([x.fitness for x in family])
+    # print([x.fitness for x in family[2:]])
+    # exit()
+    return family[2:]

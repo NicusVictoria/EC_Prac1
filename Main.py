@@ -27,6 +27,10 @@ def __main__():
     for i in range(generations):
         p = generation(population, i)
         print(p.fitness)
+        if p.fitness == 100:
+            print("Optimum reached in %s generations" % i)
+            break
+        population = p
 
 
 __main__()
