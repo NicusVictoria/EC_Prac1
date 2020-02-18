@@ -1,4 +1,4 @@
-population_size = 40
+population_size = 30
 k_length = 4
 deceptiveness = 2.5  # deceptiveness; lower deceptiveness is more deceptive
 generations = 100
