@@ -5,13 +5,13 @@ import random
 
 import params
 from Crossover import uniform_crossover, two_point_crossover, compete
-from individual import trap_function_non_linked, trap_function_linked
+from individual import trap_function_non_linked, trap_function_linked, counting_ones
 from params import generations
 from population import Population, create_initial_population
 from printer import write_line
 
 
-def generation(p, g, xover, ff):
+def create_next_generation(p, g, xover, ff):
     random.shuffle(p.population)
     new_population = Population()
     updated = False
@@ -32,10 +32,10 @@ def run_generations(xover, ff, popsize):
     pop.set_fitness()
     for i in range(generations):
 
-        p, updated = generation(pop, i, xover, ff)
+        p, updated = create_next_generation(pop, i, xover, ff)
         # print(p.best.fitness)
         if p.best.fitness == 100:
-            print("optimum found")
+            # print("optimum found")
             return True
         if not updated:
             print("optimization unsuccesful")
@@ -78,7 +78,7 @@ def find_popsize(fitness_function, xover):
         optimum_found = False
 
         for j in range(25):
-            print("popsize ", popsize)
+            # print("popsize ", popsize)
 
             optimum_found = run_generations(xover, fitness_function, popsize)
 
@@ -93,7 +93,7 @@ def find_popsize(fitness_function, xover):
                                                                                          upper_bound_popsize,
                                                                                          optimum_found)
         lives = 2
-
+    print("popsize found: ", popsize)
     return popsize
 
 
@@ -106,14 +106,14 @@ def gen(xover, ff, popsize):
     pop.set_fitness()
     updated = False
     for i in range(generations):
-        p, update = generation(pop, i, xover, ff)
+        p, update = create_next_generation(pop, i, xover, ff)
         updated = updated or update
-        print(p.best.fitness)
+        # print(p.best.fitness)
         if p.best.fitness == 100:
             number_of_generations.append(i)
             evaluations.append(i * (popsize / 2))
             print("Optimum reached in %s generations with popsize %s" % (i, popsize))
-            p.best.view_individual()
+            # p.best.view_individual()
             break
         if not updated:
             number_of_generations.append(i)
@@ -139,45 +139,25 @@ def run_experiment(ff, xover):
         amt_generations += amount_of_generations
         t2 = process_time()
         cpu_times.append(t2 - t1)
-    write_line([ff.__name__, xover.__name__, popsize, mean(amt_generations), mean(amt_generations),
+    write_line([ff.__name__, xover.__name__, popsize, mean(amt_generations), stdev(amt_generations),
                 mean(evaluations),
                 stdev(evaluations), mean(cpu_times), stdev(cpu_times), params.deceptiveness])
 
 
 def __main__():
-    ffs = [trap_function_linked,
-           trap_function_non_linked]  # [counting_ones, trap_function_linked, trap_function_non_linked]
+    ffs = [counting_ones, trap_function_linked, trap_function_non_linked]
     xovers = [two_point_crossover, uniform_crossover]
 
     for ff in ffs:
         for xover in xovers:
-            # counting Ones
-            # run_experiment(ff, xover)
-            for d in [1, 2.5]:
-                params.deceptiveness = d
+            if ff.__name__ is "counting_ones":
+                print("running %s with %s" % (ff.__name__, xover.__name__))
                 run_experiment(ff, xover)
-
-        # run things.
-
-    #   "fitness_function", "xover", "minimal_pop_size", "avg_amount_of_generations",
-    #   "sdev_generations", "ff_evals", "sdev_ff_evals", "cpu_time", "sdev_cpu_time"
-
-    # ff = counting_ones
-    # xover = uniform_crossover
-    # # Initial Population
-    # popsize = find_popsize(ff, xover)
-    # population = Population()
-    # population.population = create_initial_population(popsize, ff)
-    # population.set_fitness()
-    #
-    # for i in range(generations):
-    #     p = generation(population, i, xover, ff)
-    #     print(p.best.fitness)
-    #     if p.best.fitness == 100:
-    #         print("Optimum reached in %s generations with popsize %s" % (i, popsize))
-    #         p.best.view_individual()
-    #         break
-    #     population = p
+            else:
+                for d in [1, 2.5]:
+                    print("running %s with %s and deceptiveness %s" % (ff.__name__, xover.__name__, d))
+                    params.deceptiveness = d
+                    run_experiment(ff, xover)
 
 
 __main__()
