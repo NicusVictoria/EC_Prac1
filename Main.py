@@ -1,32 +1,45 @@
+from statistics import mean, stdev
+from time import process_time
+
 import random
 
+import params
 from Crossover import uniform_crossover, two_point_crossover, compete
+from individual import trap_function_non_linked, trap_function_linked
 from params import generations
 from population import Population, create_initial_population
-from individual import counting_ones
+from printer import write_line
 
 
 def generation(p, g, xover, ff):
     random.shuffle(p.population)
     new_population = Population()
+    updated = False
 
     for i in range(0, len(p.population), 2):
         children = xover(p.population[i], p.population[i + 1], g, ff)
-        best = compete([p.population[i], p.population[i + 1], children[0], children[1]])
+        best, update = compete([p.population[i], p.population[i + 1], children[0], children[1]])
+        updated = updated or update
         new_population.population += best
 
     new_population.set_fitness()
-    return new_population
+    return new_population, updated
 
 
-def run_generations(xover, ff, pop):
+def run_generations(xover, ff, popsize):
+    pop = Population()
+    pop.population = create_initial_population(popsize, ff)
+    pop.set_fitness()
     for i in range(generations):
 
-        p = generation(pop, i, xover, ff)
+        p, updated = generation(pop, i, xover, ff)
         # print(p.best.fitness)
         if p.best.fitness == 100:
             print("optimum found")
             return True
+        if not updated:
+            print("optimization unsuccesful")
+            return False
         pop = p
     return False
 
@@ -34,7 +47,7 @@ def run_generations(xover, ff, pop):
 def get_popsize(popsize, lower_bound_popsize, upper_bound_popsize, optimum_found):
     # returns (popsize, lowerbound, upperbound, popsize_found)
     if optimum_found:
-        new_popsize = popsize + lower_bound_popsize / 2
+        new_popsize = int((popsize + lower_bound_popsize) / 2)
         if new_popsize % 10 == 0:
             return new_popsize, lower_bound_popsize, popsize, False
         else:
@@ -46,9 +59,9 @@ def get_popsize(popsize, lower_bound_popsize, upper_bound_popsize, optimum_found
                 return popsize * 2, popsize, None, False
             return 1280, 1280, 1280, True
         else:
-            new_popsize = popsize + upper_bound_popsize / 2
+            new_popsize = int((popsize + upper_bound_popsize) / 2)
             if new_popsize % 10 == 0:
-                return popsize + upper_bound_popsize / 2, popsize, upper_bound_popsize, False
+                return new_popsize, popsize, upper_bound_popsize, False
             else:
                 return upper_bound_popsize, lower_bound_popsize, upper_bound_popsize, True
 
@@ -67,48 +80,104 @@ def find_popsize(fitness_function, xover):
         for j in range(25):
             print("popsize ", popsize)
 
-            population = Population()
-            population.population = create_initial_population(10, fitness_function)
-            population.set_fitness()
-
-            optimum_found = run_generations(xover, fitness_function, population)
+            optimum_found = run_generations(xover, fitness_function, popsize)
 
             if not optimum_found:
                 lives -= 1
 
             if lives == 0:
-                (popsize, lower_bound_popsize, upper_bound_popsize, popsize_found) = get_popsize(popsize,
-                                                                                                 lower_bound_popsize,
-                                                                                                 upper_bound_popsize,
-                                                                                                 optimum_found)
-                lives = 2
-
-            if popsize_found:
-                return popsize
+                break
 
         (popsize, lower_bound_popsize, upper_bound_popsize, popsize_found) = get_popsize(popsize,
                                                                                          lower_bound_popsize,
                                                                                          upper_bound_popsize,
                                                                                          optimum_found)
+        lives = 2
+
+    return popsize
 
 
-def __main__():
-    ff = counting_ones
-    xover = uniform_crossover
-    # Initial Population
-    popsize = 40#find_popsize(ff, xover)
-    population = Population()
-    population.population = create_initial_population(popsize, ff)
-    population.set_fitness()
+def gen(xover, ff, popsize):
+    number_of_generations = []
+    evaluations = []
 
+    pop = Population()
+    pop.population = create_initial_population(popsize, ff)
+    pop.set_fitness()
+    updated = False
     for i in range(generations):
-        p = generation(population, i, xover, ff)
+        p, update = generation(pop, i, xover, ff)
+        updated = updated or update
         print(p.best.fitness)
         if p.best.fitness == 100:
+            number_of_generations.append(i)
+            evaluations.append(i * (popsize / 2))
             print("Optimum reached in %s generations with popsize %s" % (i, popsize))
             p.best.view_individual()
             break
-        population = p
+        if not updated:
+            number_of_generations.append(i)
+            evaluations.append(i * (popsize / 2))
+            print("optimization unsuccessful")
+            break
+
+        pop = p
+    return evaluations, number_of_generations
+
+
+def run_experiment(ff, xover):
+    popsize = find_popsize(ff, xover)
+
+    cpu_times = []
+    evaluations = []
+    amt_generations = []
+
+    for i in range(25):
+        t1 = process_time()
+        (evals, amount_of_generations) = gen(xover, ff, popsize)
+        evaluations += evals
+        amt_generations += amount_of_generations
+        t2 = process_time()
+        cpu_times.append(t2 - t1)
+    write_line([ff.__name__, xover.__name__, popsize, mean(amt_generations), mean(amt_generations),
+                mean(evaluations),
+                stdev(evaluations), mean(cpu_times), stdev(cpu_times), params.deceptiveness])
+
+
+def __main__():
+    ffs = [trap_function_linked,
+           trap_function_non_linked]  # [counting_ones, trap_function_linked, trap_function_non_linked]
+    xovers = [two_point_crossover, uniform_crossover]
+
+    for ff in ffs:
+        for xover in xovers:
+            # counting Ones
+            # run_experiment(ff, xover)
+            for d in [1, 2.5]:
+                params.deceptiveness = d
+                run_experiment(ff, xover)
+
+        # run things.
+
+    #   "fitness_function", "xover", "minimal_pop_size", "avg_amount_of_generations",
+    #   "sdev_generations", "ff_evals", "sdev_ff_evals", "cpu_time", "sdev_cpu_time"
+
+    # ff = counting_ones
+    # xover = uniform_crossover
+    # # Initial Population
+    # popsize = find_popsize(ff, xover)
+    # population = Population()
+    # population.population = create_initial_population(popsize, ff)
+    # population.set_fitness()
+    #
+    # for i in range(generations):
+    #     p = generation(population, i, xover, ff)
+    #     print(p.best.fitness)
+    #     if p.best.fitness == 100:
+    #         print("Optimum reached in %s generations with popsize %s" % (i, popsize))
+    #         p.best.view_individual()
+    #         break
+    #     population = p
 
 
 __main__()

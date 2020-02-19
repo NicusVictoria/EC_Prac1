@@ -1,4 +1,5 @@
-from params import deceptiveness, k_length
+import params
+from params import k_length
 
 
 def counting_ones(gen):
@@ -12,7 +13,7 @@ def trap(n):
     if k_length is ones:
         return k_length
     else:
-        b = k_length - deceptiveness - ((k_length - deceptiveness) / (k_length - 1)) * ones
+        b = k_length - params.deceptiveness - ((k_length - params.deceptiveness) / (k_length - 1)) * ones
         return b
 
 

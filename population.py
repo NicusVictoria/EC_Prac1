@@ -1,9 +1,9 @@
+from statistics import mean
+
 import random
 
-import numpy
-
 from individual import Individual
-from params import population_size, genotype_size
+from params import genotype_size
 
 
 class Population:
@@ -13,7 +13,7 @@ class Population:
         self.best = None
 
     def set_fitness(self):
-        self.fitness = numpy.mean([i.fitness for i in self.population])
+        self.fitness = mean([i.fitness for i in self.population])
         self.best = max(self.population, key=lambda x: x.fitness)
 
 

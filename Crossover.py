@@ -31,17 +31,14 @@ def two_point_crossover(parent1, parent2, g, ff):
     split1 = random.randint(0, len(parent1.genotype))
     split2 = random.randint(split1, len(parent1.genotype))
 
-    child1 = Individual(parent2[0:split1] + parent1[split1:split2] + parent2[split2:], ff)
+    child1 = Individual(parent2.genotype[0:split1] + parent1.genotype[split1:split2] + parent2.genotype[split2:], ff)
     child1.generation = g + 1
-    child2 = Individual(parent1[0:split1] + parent2[split1:split2] + parent1[split2:], ff)
+    child2 = Individual(parent1.genotype[0:split1] + parent2.genotype[split1:split2] + parent1.genotype[split2:], ff)
     child2.generation = g + 1
     return [child1, child2]
 
 
 def compete(family):
-    # print([x.fitness for x in family])
     family.sort(key=lambda x: (x.fitness, x.generation))
-    # print([x.fitness for x in family])
-    # print([x.fitness for x in family[2:]])
-    # exit()
-    return family[2:]
+    updated = family[0] != family[3]
+    return family[2:], updated
