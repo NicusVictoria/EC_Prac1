@@ -3,7 +3,7 @@ import random
 from individual import Individual
 
 
-def uniform_crossover(parent1, parent2, g, ff):
+def uniform_crossover(parent1, parent2, ff):
     if len(parent1.genotype) is not len(parent2.genotype):
         raise ValueError("Parents have different length!?")
     c1 = []
@@ -18,13 +18,11 @@ def uniform_crossover(parent1, parent2, g, ff):
             c2.append(parent1.genotype[i])
 
     child1 = Individual(c1, ff)
-    child1.generation = g + 1
     child2 = Individual(c2, ff)
-    child2.generation = g + 1
-    return [child1, child2]
+    return child1, child2
 
 
-def two_point_crossover(parent1, parent2, g, ff):
+def two_point_crossover(parent1, parent2, ff):
     if len(parent1.genotype) is not len(parent2.genotype):
         raise ValueError("Parents have different length!?")
 
@@ -32,13 +30,19 @@ def two_point_crossover(parent1, parent2, g, ff):
     split2 = random.randint(split1, len(parent1.genotype))
 
     child1 = Individual(parent2.genotype[0:split1] + parent1.genotype[split1:split2] + parent2.genotype[split2:], ff)
-    child1.generation = g + 1
     child2 = Individual(parent1.genotype[0:split1] + parent2.genotype[split1:split2] + parent1.genotype[split2:], ff)
-    child2.generation = g + 1
-    return [child1, child2]
+    return child1, child2
+
+
+def printfamily(f):
+    print("\n\nfamily")
+    for i in f:
+        i.view_individual()
 
 
 def compete(family):
     family.sort(key=lambda x: (x.fitness, x.generation))
-    updated = family[0] != family[3]
+    updated = True
+    if family[3].generation is "parent" and family[2].generation is "parent":
+        updated = False
     return family[2:], updated

@@ -43,8 +43,9 @@ class Individual:
     def __init__(self, gen, fitness_function):
         self.genotype = gen  # list of numbers: 1 and 0
         self.fitness = fitness_function(gen)
-        self.generation = 0
+        self.generation = "child"
 
     def view_individual(self):
         print(self.genotype)
         print("fitness: ", self.fitness)
+        print("generation: ", self.generation)
