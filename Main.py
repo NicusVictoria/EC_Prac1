@@ -1,4 +1,5 @@
 from statistics import mean, stdev
+from sys import argv
 from time import process_time
 
 import random
@@ -105,6 +106,7 @@ def gen(xover, ff, popsize):
     pop.population = create_initial_population(popsize, ff)
     pop.set_fitness()
     updated = False
+    stopped = False
     for i in range(generations):
         p, update = create_next_generation(pop, i, xover, ff)
         updated = updated or update
@@ -112,16 +114,21 @@ def gen(xover, ff, popsize):
         if p.best.fitness == 100:
             number_of_generations.append(i)
             evaluations.append(i * (popsize / 2))
-            print("Optimum reached in %s generations with popsize %s" % (i, popsize))
+            # print("Optimum reached in %s generations with popsize %s" % (i, popsize))
             # p.best.view_individual()
+            stopped = True
             break
         if not updated:
             number_of_generations.append(i)
             evaluations.append(i * (popsize / 2))
             print("optimization unsuccessful")
+            stopped = True
             break
 
         pop = p
+    if not stopped:
+        number_of_generations.append(generations)
+        evaluations.append(generations * (popsize / 2))
     return evaluations, number_of_generations
 
 
@@ -139,17 +146,24 @@ def run_experiment(ff, xover):
         amt_generations += amount_of_generations
         t2 = process_time()
         cpu_times.append(t2 - t1)
+    print("experiment finished")
+    print("average amount of generations: ", mean(amt_generations))
+    print("average amount of processing time (s): ", mean(cpu_times))
     write_line([ff.__name__, xover.__name__, popsize, mean(amt_generations), stdev(amt_generations),
                 mean(evaluations),
                 stdev(evaluations), mean(cpu_times), stdev(cpu_times), params.deceptiveness])
 
 
-def __main__():
+def __main__(x=None, a=None, b=None):
     ffs = [counting_ones, trap_function_linked, trap_function_non_linked]
-    xovers = [two_point_crossover, uniform_crossover]
+    xovers = [uniform_crossover, two_point_crossover]
+    if a is not None and b is not None:
+        ffs = [ffs[int(a)]]
+        xovers = [xovers[int(b)]]
 
     for ff in ffs:
         for xover in xovers:
+
             if ff.__name__ is "counting_ones":
                 print("running %s with %s" % (ff.__name__, xover.__name__))
                 run_experiment(ff, xover)
@@ -160,4 +174,4 @@ def __main__():
                     run_experiment(ff, xover)
 
 
-__main__()
+__main__(*argv)
