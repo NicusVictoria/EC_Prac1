@@ -40,9 +40,23 @@ def printfamily(f):
         i.view_individual()
 
 
-def compete(family):
+def selection_error(parent1, parent2, win1, win2):
+    error_counter = 0
+    correct_counter = 0
+    for i in range(len(parent1.genotype)):
+        if parent1.genotype[i] != parent2.genotype[i]:
+            if win1.genotype[i] == 0 and win2.genotype[i] == 0:
+                error_counter += 1
+            if win1.genotype[i] == 1 and win2.genotype[i] == 1:
+                correct_counter += 1
+    return error_counter, correct_counter
+
+
+def compete(p1, p2, c1, c2):
+    family = [p1, p2, c1, c2]
     family.sort(key=lambda x: (x.fitness, x.generation))
     updated = True
     if family[3].generation is "parent" and family[2].generation is "parent":
         updated = False
-    return family[2:], updated
+    error, correct = selection_error(p1, p2, family[3], family[2])
+    return family[2:], updated, error, correct
