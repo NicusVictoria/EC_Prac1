@@ -1,85 +1,85 @@
-xover              ,t ,errors,corrects
-uniform_crossover  ,0 ,1245  ,1986
-uniform_crossover  ,1 ,1231  ,1857
-uniform_crossover  ,2 ,1281  ,1884
-uniform_crossover  ,3 ,1171  ,1787
-uniform_crossover  ,4 ,1241  ,1780
-uniform_crossover  ,5 ,1155  ,1665
-uniform_crossover  ,6 ,1129  ,1636
-uniform_crossover  ,7 ,1126  ,1588
-uniform_crossover  ,8 ,1084  ,1591
-uniform_crossover  ,9 ,1028  ,1529
-uniform_crossover  ,10,983   ,1437
-uniform_crossover  ,11,920   ,1375
-uniform_crossover  ,12,864   ,1317
-uniform_crossover  ,13,784   ,1228
-uniform_crossover  ,14,746   ,1184
-uniform_crossover  ,15,676   ,1102
-uniform_crossover  ,16,640   ,1059
-uniform_crossover  ,17,573   ,986
-uniform_crossover  ,18,514   ,894
-uniform_crossover  ,19,444   ,809
-uniform_crossover  ,20,389   ,725
-uniform_crossover  ,21,321   ,653
-uniform_crossover  ,22,274   ,579
-uniform_crossover  ,23,213   ,476
-uniform_crossover  ,24,192   ,437
-uniform_crossover  ,25,128   ,367
-uniform_crossover  ,26,94    ,291
-uniform_crossover  ,27,56    ,228
-uniform_crossover  ,28,37    ,197
-uniform_crossover  ,29,19    ,146
-uniform_crossover  ,30,5     ,111
-uniform_crossover  ,31,0     ,56
-uniform_crossover  ,32,0     ,12
-uniform_crossover  ,33,0     ,1
-two_point_crossover,0 ,1721  ,2380
-two_point_crossover,1 ,1759  ,2325
-two_point_crossover,2 ,1726  ,2309
-two_point_crossover,3 ,1663  ,2197
-two_point_crossover,4 ,1649  ,2198
-two_point_crossover,5 ,1656  ,2121
-two_point_crossover,6 ,1432  ,1935
-two_point_crossover,7 ,1320  ,1779
-two_point_crossover,8 ,1385  ,1824
-two_point_crossover,9 ,1250  ,1688
-two_point_crossover,10,1184  ,1603
-two_point_crossover,11,1120  ,1518
-two_point_crossover,12,1029  ,1391
-two_point_crossover,13,1155  ,1569
-two_point_crossover,14,966   ,1316
-two_point_crossover,15,942   ,1293
-two_point_crossover,16,805   ,1125
-two_point_crossover,17,721   ,1023
-two_point_crossover,18,713   ,989
-two_point_crossover,19,646   ,924
-two_point_crossover,20,616   ,861
-two_point_crossover,21,556   ,812
-two_point_crossover,22,474   ,707
-two_point_crossover,23,433   ,655
-two_point_crossover,24,420   ,641
-two_point_crossover,25,355   ,564
-two_point_crossover,26,325   ,546
-two_point_crossover,27,255   ,483
-two_point_crossover,28,237   ,430
-two_point_crossover,29,225   ,405
-two_point_crossover,30,165   ,332
-two_point_crossover,31,128   ,283
-two_point_crossover,32,98    ,236
-two_point_crossover,33,81    ,187
-two_point_crossover,34,68    ,175
-two_point_crossover,35,49    ,159
-two_point_crossover,36,31    ,122
-two_point_crossover,37,26    ,105
-two_point_crossover,38,17    ,84
-two_point_crossover,39,15    ,111
-two_point_crossover,40,14    ,106
-two_point_crossover,41,5     ,78
-two_point_crossover,42,3     ,68
-two_point_crossover,43,0     ,48
-two_point_crossover,44,0     ,29
-two_point_crossover,45,0     ,41
-two_point_crossover,46,0     ,62
-two_point_crossover,47,0     ,66
-two_point_crossover,48,0     ,31
-two_point_crossover,49,0     ,8
+xover,t,errors,corrects
+uniform_crossover,0,1245,1986
+uniform_crossover,1,1231,1857
+uniform_crossover,2,1281,1884
+uniform_crossover,3,1171,1787
+uniform_crossover,4,1241,1780
+uniform_crossover,5,1155,1665
+uniform_crossover,6,1129,1636
+uniform_crossover,7,1126,1588
+uniform_crossover,8,1084,1591
+uniform_crossover,9,1028,1529
+uniform_crossover,10,983,1437
+uniform_crossover,11,920,1375
+uniform_crossover,12,864,1317
+uniform_crossover,13,784,1228
+uniform_crossover,14,746,1184
+uniform_crossover,15,676,1102
+uniform_crossover,16,640,1059
+uniform_crossover,17,573,986
+uniform_crossover,18,514,894
+uniform_crossover,19,444,809
+uniform_crossover,20,389,725
+uniform_crossover,21,321,653
+uniform_crossover,22,274,579
+uniform_crossover,23,213,476
+uniform_crossover,24,192,437
+uniform_crossover,25,128,367
+uniform_crossover,26,94,291
+uniform_crossover,27,56,228
+uniform_crossover,28,37,197
+uniform_crossover,29,19,146
+uniform_crossover,30,5,111
+uniform_crossover,31,0,56
+uniform_crossover,32,0,12
+uniform_crossover,33,0,1
+two_point_crossover,0,1721,2380
+two_point_crossover,1,1759,2325
+two_point_crossover,2,1726,2309
+two_point_crossover,3,1663,2197
+two_point_crossover,4,1649,2198
+two_point_crossover,5,1656,2121
+two_point_crossover,6,1432,1935
+two_point_crossover,7,1320,1779
+two_point_crossover,8,1385,1824
+two_point_crossover,9,1250,1688
+two_point_crossover,10,1184,1603
+two_point_crossover,11,1120,1518
+two_point_crossover,12,1029,1391
+two_point_crossover,13,1155,1569
+two_point_crossover,14,966,1316
+two_point_crossover,15,942,1293
+two_point_crossover,16,805,1125
+two_point_crossover,17,721,1023
+two_point_crossover,18,713,989
+two_point_crossover,19,646,924
+two_point_crossover,20,616,861
+two_point_crossover,21,556,812
+two_point_crossover,22,474,707
+two_point_crossover,23,433,655
+two_point_crossover,24,420,641
+two_point_crossover,25,355,564
+two_point_crossover,26,325,546
+two_point_crossover,27,255,483
+two_point_crossover,28,237,430
+two_point_crossover,29,225,405
+two_point_crossover,30,165,332
+two_point_crossover,31,128,283
+two_point_crossover,32,98,236
+two_point_crossover,33,81,187
+two_point_crossover,34,68,175
+two_point_crossover,35,49,159
+two_point_crossover,36,31,122
+two_point_crossover,37,26,105
+two_point_crossover,38,17,84
+two_point_crossover,39,15,111
+two_point_crossover,40,14,106
+two_point_crossover,41,5,78
+two_point_crossover,42,3,68
+two_point_crossover,43,0,48
+two_point_crossover,44,0,29
+two_point_crossover,45,0,41
+two_point_crossover,46,0,62
+two_point_crossover,47,0,66
+two_point_crossover,48,0,31
+two_point_crossover,49,0,8

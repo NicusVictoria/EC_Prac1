@@ -76,7 +76,8 @@ def run_generations(xover, ff, popsize, log):
                     fitnesses_s1.append(ff(x.genotype))
 
             if len(fitnesses_s0) < 2:
-                mean_f_s0 = ""
+                if len(fitnesses_s0) == 1:
+                    mean_f_s0 = fitnesses_s0[0]
                 sdev_f_s0 = 0
             else:
                 mean_f_s0 = mean(fitnesses_s0)
@@ -215,7 +216,7 @@ def __main__(x=None, fitfunc=None, crossover=None, assignment=None):
     xovers = [uniform_crossover, two_point_crossover]
 
     if fitfunc == "plot":
-        read_file()
+        read_file(crossover)
         exit()
 
     if assignment is not None:
