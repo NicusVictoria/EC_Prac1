@@ -7,7 +7,7 @@ import params
 from Crossover import uniform_crossover, two_point_crossover, compete
 from Plot import read_file
 from individual import trap_function_non_linked, trap_function_linked, counting_ones
-from params import generations, datapoints, population_size
+from params import generations, datapoints, population_size, max_pop_size
 from population import Population, create_initial_population
 from printer import log_exp, log1, log2, log3
 
@@ -78,6 +78,8 @@ def run_generations(xover, ff, popsize, log):
             if len(fitnesses_s0) < 2:
                 if len(fitnesses_s0) == 1:
                     mean_f_s0 = fitnesses_s0[0]
+                else:
+                    mean_f_s0 = 'nan'
                 sdev_f_s0 = 0
             else:
                 mean_f_s0 = mean(fitnesses_s0)
@@ -139,9 +141,9 @@ def update_popsize(popsize, lower_bound_popsize, upper_bound_popsize, optimum_fo
 
     else:
         if upper_bound_popsize is None:
-            if popsize < 1280:
+            if popsize < max_pop_size:
                 return popsize * 2, popsize, None, False
-            return 1280, 1280, 1280, True
+            return max_pop_size, max_pop_size, max_pop_size, True
         else:
             new_popsize = int((popsize + upper_bound_popsize) / 2)
             if new_popsize % 10 == 0:
@@ -181,64 +183,70 @@ def find_popsize(fitness_function, xover):
 def run_experiment(ff, xover):
     popsize = find_popsize(ff, xover)
 
-    cpu_times = []
     evaluations = []
     amt_generations = []
-    unsuccessful_generations = []
+    unsuccessful_runs = []
     t1 = process_time()
     for i in range(datapoints):
         (evals, amount_of_generations, generation_succesful) = run_generations(xover, ff, popsize, "experiment")
         if not generation_succesful:
-            unsuccessful_generations.append(i)
+            unsuccessful_runs.append(i)
 
         evaluations += evals
         amt_generations += amount_of_generations
 
     t2 = process_time()
     print("experiment finished")
-    print("generations: ", amt_generations)
-    print("unsuccesful generations: ", unsuccessful_generations)
+    print("unsuccesful runs: ", len(unsuccessful_runs))
     print("average amount of generations: ", mean(amt_generations))
-    print("standard deviation of generations: ", stdev(amt_generations))
-
-    print("processing time (s): ", t1 - t2)
+    print("processing time (s): ", t2 - t1)
     log_exp([ff.__name__,
              xover.__name__,
              popsize,
-             mean(amt_generations), stdev(amt_generations), len(unsuccessful_generations),
+             mean(amt_generations), stdev(amt_generations), len(unsuccessful_runs),
              mean(evaluations), stdev(evaluations),
-             t1 - t2,
+             t2 - t1,
              params.deceptiveness])
 
 
-def __main__(x=None, fitfunc=None, crossover=None, assignment=None):
+def __main__(x=None, p1=None, p2=None, p3=None):
+    # p1 can take 2 forms:
+    #   the index of the fitness function (when running experiments)
+    #   'plot' : when plotting graphs.
+    # p2 can take 2 forms:
+    #   the index of the crossover operator
+    #   when plotting: which exercise we're plotting
+    # p3 can take 1 form:
+    #   which exercise we're running
+    # running with no parameters runs all 5 experiments, creating an output file with data. This plots nothing.
+
     ffs = [counting_ones, trap_function_linked, trap_function_non_linked]
     xovers = [uniform_crossover, two_point_crossover]
 
-    if fitfunc == "plot":
-        read_file(crossover)
+    if p1 == "plot":
+        read_file(p2)
         exit()
 
-    if assignment is not None:
-        print("running assignment ", assignment)
+    if p3 is not None:
+        print("\nrunning assignment ", p3)
         for x in xovers:
-            optimum_found = run_generations(x, counting_ones, population_size, assignment)
+            optimum_found = run_generations(x, counting_ones, population_size, p3)
             print("optimum_found: ", optimum_found)
 
     else:
-        if fitfunc is not None and crossover is not None:
-            ffs = [ffs[int(fitfunc)]]
-            xovers = [xovers[int(crossover)]]
+        if p1 is not None and p2 is not None:
+            ffs = [ffs[int(p1)]]
+            xovers = [xovers[int(p2)]]
 
         for ff in ffs:
             for xover in xovers:
 
                 if ff.__name__ is "counting_ones":
-                    print("\n\nrunning %s with %s" % (ff.__name__, xover.__name__))
+                    print("\nrunning %s with %s" % (ff.__name__, xover.__name__))
                     run_experiment(ff, xover)
                 else:
                     for d in [1, 2.5]:
-                        print("\n\nrunning %s with %s and deceptiveness %s" % (ff.__name__, xover.__name__, d))
+                        print("\nrunning %s with %s and deceptiveness %s" % (ff.__name__, xover.__name__, d))
                         params.deceptiveness = d
                         run_experiment(ff, xover)
 

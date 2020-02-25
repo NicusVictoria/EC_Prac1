@@ -12,7 +12,7 @@ def log_exp(data):
             "cpu_time",
             "deceptiveness"]
     datadict = dict(zip(keys, data))
-    write_line(datadict, keys, "outputfile2_%sg.csv" % generations)
+    write_line(datadict, keys, "Xoutputfile_%sg.csv" % generations)
 
 
 def write_line(dict, keys, filename):

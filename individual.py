@@ -18,7 +18,6 @@ def trap(n):
 
 
 def trap_function_linked(genotype):
-    # lower deceptiveness = more deceptive
     bees = []
     for j in range(int(len(genotype) / k_length)):
         bees.append(trap(genotype[j * k_length:j * k_length + k_length]))
@@ -26,7 +25,6 @@ def trap_function_linked(genotype):
 
 
 def trap_function_non_linked(genotype):
-    # lower deceptiveness = more deceptive
     bees = []
     gen_len = len(genotype)
     for i in range(int(gen_len / 4)):

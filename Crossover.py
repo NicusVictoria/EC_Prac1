@@ -34,12 +34,6 @@ def two_point_crossover(parent1, parent2, ff):
     return child1, child2
 
 
-def printfamily(f):
-    print("\n\nfamily")
-    for i in f:
-        i.view_individual()
-
-
 def selection_error(parent1, parent2, win1, win2):
     error_counter = 0
     correct_counter = 0

@@ -80,33 +80,35 @@ def read_file(e):
              count_s0, count_s1,
              avg_fitness_s0, stdev_fitness_s0,
              avg_fitness_s1, stdev_fitness_s1] \
-                in reader(open('output_e3.csv')):
+                in reader(open('output_e3_b.csv')):
             if xover == "xover":
                 continue
             elif xover == "uniform_crossover":
                 ux_sols0.append(float(count_s0))
                 ux_sols1.append(float(count_s1))
-                try:
+
+                if count_s0 != '0':
+                    # print(count_s0)
                     ux_fit0.append(float(avg_fitness_s0))
-                except:
-                    pass
+                    ux_sdev0.append(float(stdev_fitness_s0))
+
                 ux_fit1.append(float(avg_fitness_s1))
-                ux_sdev0.append(float(stdev_fitness_s0))
                 ux_sdev1.append(float(stdev_fitness_s1))
             else:
                 tpx_sols0.append(float(count_s0))
                 tpx_sols1.append(float(count_s1))
-                try:
+                
+                if count_s0 != '0':
+                    # print(count_s0)
                     tpx_fit0.append(float(avg_fitness_s0))
-                except:
-                    pass
+                    tpx_sdev0.append(float(stdev_fitness_s0))
+
                 tpx_fit1.append(float(avg_fitness_s1))
-                tpx_sdev0.append(float(stdev_fitness_s0))
                 tpx_sdev1.append(float(stdev_fitness_s1))
 
         # pyplot.plot(range(len(ux_sols0)), ux_sols0, label="schema 0")
         # pyplot.plot(range(len(ux_sols1)), ux_sols1, label="schema 1")
-        # 
+        #
         # pyplot.title("Schemata count uniform crossover")
         # pyplot.xlabel("Generations")
         # pyplot.ylabel("count")

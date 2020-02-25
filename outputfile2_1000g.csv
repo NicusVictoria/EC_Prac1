@@ -1,16 +1,16 @@
 fitness_function        ,xover              ,minimal_pop_size,avg_amount_of_generations,sdev_generations  ,unsuccessful generations,ff_evals,sdev_ff_evals     ,cpu_time   ,deceptiveness
 
-counting_ones           ,uniform_crossover  ,50              ,27.4                     ,1.632993161855452 ,0                       ,685.0   ,40.824829046386306,-0.328125  ,
-counting_ones           ,two_point_crossover,250             ,37.28                    ,3.7474435730686237,2                       ,4660.0  ,468.43044663357796,-1.734375  ,
+counting_ones           ,uniform_crossover  ,50              ,27.4                     ,1.632993161855452 ,0                       ,685.0   ,40.824829046386306,0.328125  ,
+counting_ones           ,two_point_crossover,250             ,37.28                    ,3.7474435730686237,2                       ,4660.0  ,468.43044663357796,1.734375  ,
 
-trap_function_linked    ,uniform_crossover  ,1280            ,698                      ,154.6444847599379 ,25                      ,446720.0,98972.47024636026 ,-224.28125 ,1
-trap_function_linked    ,uniform_crossover  ,350             ,76.4                     ,17.58787461103056 ,2                       ,13370.0 ,3077.878056930348 ,-6.8125    ,2.5
+trap_function_linked    ,uniform_crossover  ,1280            ,698                      ,154.6444847599379 ,25                      ,446720.0,98972.47024636026 ,224.28125 ,1
+trap_function_linked    ,uniform_crossover  ,350             ,76.4                     ,17.58787461103056 ,2                       ,13370.0 ,3077.878056930348 ,6.8125    ,2.5
 
-trap_function_linked    ,two_point_crossover,1050            ,43.24                    ,4.511836285445946 ,1                       ,22701.0 ,2368.714049859121 ,-12.375    ,1
-trap_function_linked    ,two_point_crossover,440             ,36.44                    ,4.708856903042747 ,2                       ,8016.8  ,1035.9485186694044,-4.609375  ,2.5
+trap_function_linked    ,two_point_crossover,1050            ,43.24                    ,4.511836285445946 ,1                       ,22701.0 ,2368.714049859121 ,12.375    ,1
+trap_function_linked    ,two_point_crossover,440             ,36.44                    ,4.708856903042747 ,2                       ,8016.8  ,1035.9485186694044,4.609375  ,2.5
 
-trap_function_non_linked,uniform_crossover  ,1280            ,664.96                   ,161.17058251016735,25                      ,425574.4,103149.17280650711,-196.828125,1
-trap_function_non_linked,uniform_crossover  ,310             ,77.84                    ,10.257842528199257,4                       ,12065.2 ,1589.965591870885 ,-6.484375  ,2.5
+trap_function_non_linked,uniform_crossover  ,1280            ,664.96                   ,161.17058251016735,25                      ,425574.4,103149.17280650711,196.828125,1
+trap_function_non_linked,uniform_crossover  ,310             ,77.84                    ,10.257842528199257,4                       ,12065.2 ,1589.965591870885 ,6.484375  ,2.5
 
-trap_function_non_linked,two_point_crossover,1280            ,89.92                    ,17.844046626256052,25                      ,57548.8 ,11420.189840803874,-32.578125 ,1
-trap_function_non_linked,two_point_crossover,1280            ,93.44                    ,13.054628808715066,25                      ,59801.6 ,8354.962437577642 ,-29.53125  ,2.5
+trap_function_non_linked,two_point_crossover,1280            ,89.92                    ,17.844046626256052,25                      ,57548.8 ,11420.189840803874,32.578125 ,1
+trap_function_non_linked,two_point_crossover,1280            ,93.44                    ,13.054628808715066,25                      ,59801.6 ,8354.962437577642 ,29.53125  ,2.5
